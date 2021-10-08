@@ -6,7 +6,5 @@ export const environment = {
     clientId: 'angular-client',
     responseType: 'code',
     scope: 'openid profile email',
-    useSilentRefresh: true,
-    sessionChecksEnabled: true,
   }
 };

@@ -11,8 +11,6 @@ export const environment = {
     responseType: 'code',
     scope: 'openid profile email',
     showDebugInformation: true,
-    useSilentRefresh: true,
-    sessionChecksEnabled: true,
   }
 };
 
