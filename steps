@@ -1,0 +1,71 @@
+1. Set up the project with angular cli using routing and the defaults
+npm install -g @angular/cli
+ng new medium-angular-oauth2 --routing --defaults
+
+2. Create a docker-compose file for testing
+
+
+3. Create some pages
+ ng generate component pages/public --type page
+ ng generate component pages/private --type page
+
+Replace the routes
+const routes: Routes = [
+  { path: 'private', component: PrivatePage },
+  { path: '', component: PublicPage },
+];
+
+3. Add library
+npm i angular-oauth2-oidc --save
+Add config to environment.ts
+
+  oidc: {
+    issuer: 'http://localhost:8080/auth/realms/Test-Applikation',
+    redirectUri: window.location.origin + '/',
+    clientId: 'angular-test',
+    responseType: 'code',
+    scope: 'openid profile email',
+    showDebugInformation: true,
+  }
+
+Initialize module in app.module.ts
+
+  imports: [
+    ...
+    HttpClientModule,
+    OAuthModule.forRoot()
+  ],
+
+4. Basic Setup
+Initialize library in app.module.ts
+
+Edit the public page with a login button and the private page with some user information
+
+<ng-template *ngIf="isLoggedIn; ; else notLoggedInBlock">
+    <span>You are already logged in. Continue to the <a [routerLink]="['/private']">Private Page</a></span>
+</ng-template>
+<ng-template #notLoggedInBlock>
+    <button #alreadyLoggedInBlock  class="card card-small" (click)="login" tabindex="0">
+        <span>Login</span>
+    </button>
+</ng-template>
+
+  public readonly isLoggedIn: boolean;
+
+  constructor(private readonly oauthService: OAuthService) { 
+    this.isLoggedIn = !! this.oauthService.getIdentityClaims()
+  }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  login(){
+    return this.oauthService.initLoginFlow();
+  }
+
+
+{{ userInfo | json }}}
+
+  constructor(private readonly oauthService: OAuthService) { 
+    this.userInfo = this.oauthService.getIdentityClaims();
+  }
