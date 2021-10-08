@@ -15,4 +15,4 @@ services:
     ports:
     - "3000:3000"
     environment:
-      ISSUER: http://keycloak:8080/auth/realms/master
+      ISSUER: http://keycloak:8080/auth/realms/Test-Application

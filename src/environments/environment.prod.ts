@@ -6,5 +6,7 @@ export const environment = {
     clientId: 'angular-client',
     responseType: 'code',
     scope: 'openid profile email',
+    sessionChecksEnabled: true,
+    silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
   }
 };

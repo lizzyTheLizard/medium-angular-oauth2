@@ -11,6 +11,8 @@ export const environment = {
     responseType: 'code',
     scope: 'openid profile email',
     showDebugInformation: true,
+    sessionChecksEnabled: true,
+    silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
   }
 };
 

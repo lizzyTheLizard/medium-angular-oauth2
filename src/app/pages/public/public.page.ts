@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-public',
   templateUrl: './public.page.html',
   styleUrls: ['./public.page.css']
 })
-export class PublicPage implements OnInit {
-  isLoggedIn = false;
+export class PublicPage {
+  readonly isLoggedIn$: Observable<boolean>;
 
   constructor(private readonly oauthService: OAuthService) { 
-  }
-
-  ngOnInit(){
-    this.isLoggedIn = this.oauthService.getIdentityClaims() != null;
+    this.isLoggedIn$ = this.oauthService.events.pipe(
+        startWith(this.oauthService.getIdentityClaims()),
+        map(() => this.oauthService.getIdentityClaims() != null),
+      );
   }
   
   login(){
@@ -22,6 +24,5 @@ export class PublicPage implements OnInit {
 
   logout(){
     this.oauthService.logOut();
-    this.isLoggedIn = false;
   }
 }

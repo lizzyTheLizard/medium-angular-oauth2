@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PrivatePage } from './pages/private/private.page';
 import { PublicPage } from './pages/public/public.page';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -18,9 +19,14 @@ import { PublicPage } from './pages/public/public.page';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: ['http://localhost:3000/info'],
+        sendAccessToken: true
+      }      
+    })
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

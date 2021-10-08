@@ -1,1 +1,5 @@
-{{ userInfo | json }}}
+{{ userInfo$ | async | json }}<br>
+<button (click)="makeAuthenticatedRequest()" tabindex="0">
+    <span>Make Authenticated Request</span>
+</button>
+

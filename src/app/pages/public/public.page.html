@@ -1,4 +1,4 @@
-<span *ngIf="isLoggedIn; else notLoggedInBlock">
+<span *ngIf="isLoggedIn$ | async; else notLoggedInBlock">
     You are already logged in. Continue to the <a [routerLink]="['/private']">Private Page</a>
     <button class="card card-small" (click)="logout()" tabindex="0">
         <span>Logout</span>
