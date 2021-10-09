@@ -1,11 +1,1 @@
-<span *ngIf="isLoggedIn$ | async; else notLoggedInBlock">
-    You are already logged in. Continue to the <a [routerLink]="['/private']">Private Page</a><br>
-    <button class="card card-small" (click)="logout()" tabindex="0">
-        <span>Logout</span>
-    </button>
-</span>
-<ng-template #notLoggedInBlock>
-    <button class="card card-small" (click)="login()" tabindex="0">
-        <span>Login</span>
-    </button>
-</ng-template>
+<p>public works!</p>

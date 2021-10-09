@@ -1,32 +1,58 @@
-1. Set up the project with angular cli using routing and the defaults
+1. Set up the project with angular cli using routing and create some pages
 npm install -g @angular/cli
 ng new medium-angular-oauth2 --routing --defaults
-
-2. Create a docker-compose file for testing
-
-
-3. Create some pages
- ng generate component pages/public --type page
- ng generate component pages/private --type page
+cd  medium-angular-oauth2
+ng generate component pages/public --type page
+ng generate component pages/public2 --type page
+ng generate component pages/loging-error --type page
+ng generate component pages/private --type page
+ng generate component pages/not-found --type page
 
 Replace the routes
 const routes: Routes = [
+  { path: 'public', component: PublicPage },
+  { path: 'public2', component: Public2Page },
+  { path: 'login-error', component: LoginErrorPage },
   { path: 'private', component: PrivatePage },
   { path: '', component: PublicPage },
+  { path: '**', component: NotFoundPage },
 ];
+
+
+Replace the app.component.html with a simple page
+
+<div class="toolbar" role="banner">
+  <img
+    width="40"
+    alt="Angular Logo"
+    src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
+  />
+  <a [routerLink]="['/public']">Public</a>&nbsp;&nbsp; <a [routerLink]="['/public2']">Public 2</a>&nbsp;&nbsp;<a [routerLink]="['/private']">Private</a>
+</div>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
+
+2. Create a docker-compose file for testing
+
 
 3. Add library
 npm i angular-oauth2-oidc --save
 Add config to environment.ts
 
   oidc: {
-    issuer: 'http://localhost:8080/auth/realms/Test-Applikation',
+    issuer: 'http://localhost:8080/auth/realms/Test-Application',
     redirectUri: window.location.origin + '/',
-    clientId: 'angular-test',
+    clientId: 'angular-client',
     responseType: 'code',
     scope: 'openid profile email',
     showDebugInformation: true,
-  }
+    sessionChecksEnabled: true,
+    silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
+}
+
+Add the silent-refresh asset
 
 Initialize module in app.module.ts
 
@@ -36,36 +62,5 @@ Initialize module in app.module.ts
     OAuthModule.forRoot()
   ],
 
-4. Basic Setup
-Initialize library in app.module.ts
-
-Edit the public page with a login button and the private page with some user information
-
-<ng-template *ngIf="isLoggedIn; ; else notLoggedInBlock">
-    <span>You are already logged in. Continue to the <a [routerLink]="['/private']">Private Page</a></span>
-</ng-template>
-<ng-template #notLoggedInBlock>
-    <button #alreadyLoggedInBlock  class="card card-small" (click)="login" tabindex="0">
-        <span>Login</span>
-    </button>
-</ng-template>
-
-  public readonly isLoggedIn: boolean;
-
-  constructor(private readonly oauthService: OAuthService) { 
-    this.isLoggedIn = !! this.oauthService.getIdentityClaims()
-  }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  login(){
-    return this.oauthService.initLoginFlow();
-  }
-
-
-{{ userInfo | json }}}
-
-  constructor(private readonly oauthService: OAuthService) { 
-    this.userInfo = this.oauthService.getIdentityClaims();
-  }
+4. Implement the auth service and auth guard
+5. Add guards to routes, add handlers to app.component and private pages

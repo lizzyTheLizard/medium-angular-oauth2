@@ -7,13 +7,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PrivatePage } from './pages/private/private.page';
 import { PublicPage } from './pages/public/public.page';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './authentication/auth.guard';
+import { Public2Page } from './pages/public2/public2.page';
+import { AuthenticationService } from './authentication/authentication.service';
+import { LoginErrorPage } from './pages/login-error/login-error.page';
+import { NotFoundPage } from './pages/not-found/not-found.page';
 
 @NgModule({
   declarations: [
     AppComponent,
     PrivatePage,
-    PublicPage
+    PublicPage,
+    Public2Page,
+    LoginErrorPage,
+    NotFoundPage,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +34,7 @@ import { AuthGuard } from './auth.guard';
       }      
     })
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

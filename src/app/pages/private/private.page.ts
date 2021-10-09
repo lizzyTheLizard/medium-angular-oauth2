@@ -1,23 +1,42 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { AuthenticationService } from 'src/app/authentication/authentication.service';
 
 @Component({
   selector: 'app-private',
   templateUrl: './private.page.html',
   styleUrls: ['./private.page.css']
 })
-export class PrivatePage {
+export class PrivatePage implements OnInit, OnDestroy {
+  private loggedInSubscription: Subscription | undefined;
   readonly userInfo$: Observable<object>;
 
-  constructor(private readonly oauthService: OAuthService, private readonly httpClient: HttpClient) { 
+  constructor(private readonly authenticationService: AuthenticationService, private readonly httpClient: HttpClient) { 
     //Update the user infos with every event and start with the current value
-    this.userInfo$ = this.oauthService.events.pipe(
-      map(() => this.oauthService.getIdentityClaims()),
-      startWith(this.oauthService.getIdentityClaims())
-    );
+    this.userInfo$ = this.authenticationService.userInfo$;
+  }
+
+  ngOnInit(): void {
+    this.loggedInSubscription = this.authenticationService.loggedOut$.subscribe(() => this.loggedOut());
+  }
+
+  ngOnDestroy(): void {
+    if(this.loggedInSubscription) {
+      this.loggedInSubscription.unsubscribe();
+      this.loggedInSubscription = undefined;
+    }
+  }
+
+  private loggedOut(){
+    //What shall happen if the user session ends while beeing on this page? 
+    //Just navigate away can be bad, as the user then can lose potential input etc.
+    //Best action depends on the actual use case, here we just ask him...
+    if(confirm('You have been logged out. Do you want to try to log in again?')) {
+      this.authenticationService.login();
+    } else {
+      this.authenticationService.navigateToLogoutPage();
+    }
   }
 
   makeAuthenticatedRequest(){
