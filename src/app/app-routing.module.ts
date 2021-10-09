@@ -6,6 +6,7 @@ import { PublicPage } from './pages/public/public.page';
 
 
 const routes: Routes = [
+  //This is an example for a private page, protected by an auth guard
   { path: 'private', component: PrivatePage, canActivate: [AuthGuard]},
   { path: '', component: PublicPage },
 ];

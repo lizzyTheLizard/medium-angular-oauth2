@@ -19,6 +19,7 @@ import { AuthGuard } from './auth.guard';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    //Load the module and add the access token to the defined requests
     OAuthModule.forRoot({
       resourceServer: {
         allowedUrls: ['http://localhost:3000/info'],

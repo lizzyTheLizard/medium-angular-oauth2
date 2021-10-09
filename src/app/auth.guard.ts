@@ -7,7 +7,8 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private oauthService: OAuthService) {}
 
   canActivate() {
-    if (this.oauthService.hasValidAccessToken() && this.oauthService.hasValidIdToken()) {
+    //Check if the user is logged in. If not, send it to '/'
+    if (this.oauthService.hasValidAccessToken()) {
       return true;
     } else {
       this.router.navigate(['/']);

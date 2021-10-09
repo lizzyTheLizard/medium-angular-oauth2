@@ -7,10 +7,9 @@ import { environment } from 'src/environments/environment';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   title = 'medium-angular-oauth2';
   loginFinished = false;
-  waiter: ReturnType<typeof setInterval> | undefined;
 
   constructor(private readonly oauthService: OAuthService) {
   }  
@@ -27,26 +26,12 @@ export class AppComponent implements OnInit, OnDestroy {
     //If not logged in, try a silent refresh to log in if there is a session at auth server
     //but ingore any errors
     if(!this.oauthService.getIdentityClaims()){
-      await this.checkIfLoggedIn();
+      try {
+        await this.oauthService.silentRefresh();
+      } catch (e) {
+        console.log('Not yet logged in');
+      }
     }
     this.loginFinished = true;
-
-    //If still not logged in, try a silent refresh periodically
-    this.waiter = setInterval(() => this.checkIfLoggedIn(), 5000);
-  }
-
-  async checkIfLoggedIn(){
-    try {
-      await this.oauthService.silentRefresh();
-    } catch (e) {
-      console.log('Not logged in');
-    }
-  }
-
-  ngOnDestroy(): void {
-    if(this.waiter) {
-      clearInterval(this.waiter);
-      this.waiter = undefined;
-    }
   }
 }

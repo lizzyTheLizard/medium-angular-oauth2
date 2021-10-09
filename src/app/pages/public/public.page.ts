@@ -12,10 +12,11 @@ export class PublicPage {
   readonly isLoggedIn$: Observable<boolean>;
 
   constructor(private readonly oauthService: OAuthService) { 
+    //A user is logged if there is a valid token. Update with every event and start with the current value
     this.isLoggedIn$ = this.oauthService.events.pipe(
-        startWith(this.oauthService.getIdentityClaims()),
-        map(() => this.oauthService.getIdentityClaims() != null),
-      );
+      map(() => this.oauthService.hasValidAccessToken()),
+      startWith(this.oauthService.hasValidAccessToken()),
+    );
   }
   
   login(){

@@ -13,9 +13,10 @@ export class PrivatePage {
   readonly userInfo$: Observable<object>;
 
   constructor(private readonly oauthService: OAuthService, private readonly httpClient: HttpClient) { 
+    //Update the user infos with every event and start with the current value
     this.userInfo$ = this.oauthService.events.pipe(
-        map(e => this.oauthService.getIdentityClaims()),
-        startWith(this.oauthService.getIdentityClaims())
+      map(() => this.oauthService.getIdentityClaims()),
+      startWith(this.oauthService.getIdentityClaims())
     );
   }
 
