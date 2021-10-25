@@ -1,8 +1,2 @@
-{{ userInfo$ | async | json }}
-
-<br><br>
-
-<button (click)="makeAuthenticatedRequest()" tabindex="0">
-    <span>Make Authenticated Request</span>
-</button>
-
+<p>private works!</p>
+{{ authService.userInfo$ | async  | json }}

@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./public.page.css']
 })
 export class PublicPage {
+
   constructor() { }
 }

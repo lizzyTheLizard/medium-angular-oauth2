@@ -4,7 +4,7 @@ ng new medium-angular-oauth2 --routing --defaults
 cd  medium-angular-oauth2
 ng generate component pages/public --type page
 ng generate component pages/public2 --type page
-ng generate component pages/loging-error --type page
+ng generate component pages/auth-error --type page
 ng generate component pages/private --type page
 ng generate component pages/not-found --type page
 
@@ -12,7 +12,7 @@ Replace the routes
 const routes: Routes = [
   { path: 'public', component: PublicPage },
   { path: 'public2', component: Public2Page },
-  { path: 'login-error', component: LoginErrorPage },
+  { path: 'auth-error', component: AuthErrorPage },
   { path: 'private', component: PrivatePage },
   { path: '', component: PublicPage },
   { path: '**', component: NotFoundPage },
@@ -38,29 +38,10 @@ Replace the app.component.html with a simple page
 
 
 3. Add library
-npm i angular-oauth2-oidc --save
-Add config to environment.ts
-
-  oidc: {
-    issuer: 'http://localhost:8080/auth/realms/Test-Application',
-    redirectUri: window.location.origin + '/',
-    clientId: 'angular-client',
-    responseType: 'code',
-    scope: 'openid profile email',
-    showDebugInformation: true,
-    sessionChecksEnabled: true,
-    silentRefreshRedirectUri: window.location.origin + '/assets/silent-refresh.html',
-}
-
-Add the silent-refresh asset
-
-Initialize module in app.module.ts
-
-  imports: [
-    ...
-    HttpClientModule,
-    OAuthModule.forRoot()
-  ],
-
-4. Implement the auth service and auth guard
-5. Add guards to routes, add handlers to app.component and private pages
+* npm i angular-oauth2-oidc @ng-idle/keepalive --save
+* Add the silent-refresh asset
+* Initialize module in app.module.ts
+* Implement the auth service
+* Implement Login/Logout-Button in app.component
+* Implement Guard and add Guards to router
+* Add handler to private pages

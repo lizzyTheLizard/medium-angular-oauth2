@@ -1,13 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "049a0b84-14dc-44b8-adb5-cf909762a13f",
-    "defaultCollection": "@angular-eslint/schematics"
-  },
   "version": 1,
-  "newProjectRoot": ".",
+  "newProjectRoot": "projects",
   "projects": {
-    "medium-angular-oauth2": {
+    "medium-angular-oauth2-n2": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -21,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/medium-angular-oauth2",
+            "outputPath": "dist/medium-angular-oauth2-n2",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "medium-angular-oauth2:build:production"
+              "browserTarget": "medium-angular-oauth2-n2:build:production"
             },
             "development": {
-              "browserTarget": "medium-angular-oauth2:build:development"
+              "browserTarget": "medium-angular-oauth2-n2:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "medium-angular-oauth2:build"
+            "browserTarget": "medium-angular-oauth2-n2:build"
           }
         },
         "test": {

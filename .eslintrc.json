@@ -20,20 +20,12 @@
       ],
       "rules": {
         "indent": ["error", 2],
-        "@angular-eslint/directive-selector": [
-          "error",
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "@angular-eslint/component-class-suffix": [
+          "warn",
           {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
+            "suffixes": ["Component", "Page"]
           }
         ]
       }
